@@ -3,24 +3,36 @@ import {
   $getSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_CRITICAL,
+  COMMAND_PRIORITY_NORMAL,
   FORMAT_TEXT_COMMAND,
+  KEY_MODIFIER_COMMAND,
   LexicalEditor,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from "lexical";
 import { mergeRegister } from "@lexical/utils";
-import { useCallback, useEffect, useState } from "react";
-import { CiUndo, CiRedo } from "react-icons/ci";
-import { RiBold, RiItalic, RiUnderline } from "react-icons/ri";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 
-export default function ToolbarPlugin() {
+import { Dispatch, useCallback, useEffect, useState } from "react";
+import { CiUndo, CiRedo } from "react-icons/ci";
+import { RiBold, RiItalic, RiUnderline, RiLink } from "react-icons/ri";
+import { getSelectedNode } from "@/app/utils/getSelectedNode";
+import { sanitizeUrl } from "@/app/utils/sanitizeUrl";
+
+export default function ToolbarPlugin({
+  setIsLinkEditMode,
+}: {
+  setIsLinkEditMode: Dispatch<boolean>;
+}) {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState<LexicalEditor>(editor);
 
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
+
+  const [isLink, setIsLink] = useState(false);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -29,6 +41,15 @@ export default function ToolbarPlugin() {
       setIsItalic(selection.hasFormat("italic"));
       setIsUnderline(selection.hasFormat("underline"));
       //   console.log(selection.hasFormat("bold"))
+
+      // Update links
+      const node = getSelectedNode(selection);
+      const parent = node.getParent();
+      if ($isLinkNode(parent) || $isLinkNode(node)) {
+        setIsLink(true);
+      } else {
+        setIsLink(false);
+      }
     }
   }, [activeEditor]);
 
@@ -47,7 +68,7 @@ export default function ToolbarPlugin() {
   useEffect(() => {
     return mergeRegister(
       editor.registerEditableListener((editable) => {
-        // setIsEditable(editable);
+        // setIsEdiTOGGLE_LINK_COMMANDtable(editable);
       }),
       activeEditor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
@@ -72,6 +93,44 @@ export default function ToolbarPlugin() {
       //   ),
     );
   }, [$updateToolbar, activeEditor, editor]);
+
+  //   useEffect(() => {
+  //     return activeEditor.registerCommand(
+  //       KEY_MODIFIER_COMMAND,
+  //       (payload) => {
+  //         const event: KeyboardEvent = payload;
+  //         const { code, ctrlKey, metaKey } = event;
+
+  //         if (code === "KeyK" && (ctrlKey || metaKey)) {
+  //           event.preventDefault();
+  //           let url: string | null;
+  //           if (!isLink) {
+  //             setIsLinkEditMode(true);
+  //             url = sanitizeUrl("https://");
+  //           } else {
+  //             setIsLinkEditMode(false);
+  //             url = null;
+  //           }
+  //           return activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
+  //         }
+  //         return false;
+  //       },
+  //       COMMAND_PRIORITY_NORMAL
+  //     );
+  //   }, [activeEditor, isLink, setIsLinkEditMode]);
+
+  const insertLink = useCallback(() => {
+    if (!isLink) {
+      setIsLinkEditMode(true);
+      activeEditor.dispatchCommand(
+        TOGGLE_LINK_COMMAND,
+        sanitizeUrl("https://")
+      );
+    } else {
+      setIsLinkEditMode(false);
+      activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+    }
+  }, [editor, activeEditor, isLink, setIsLinkEditMode]);
 
   return (
     <div className="flex gap-3 shadow-md px-2 py-3">
@@ -112,6 +171,9 @@ export default function ToolbarPlugin() {
           }
         >
           <RiUnderline />
+        </button>
+        <button className={isLink ? "active" : ""} onClick={insertLink}>
+          <RiLink />
         </button>
       </div>
     </div>

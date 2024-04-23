@@ -14,7 +14,8 @@
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.1.0"
+    "react-icons": "^5.1.0",
+    "shared": "^0.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",

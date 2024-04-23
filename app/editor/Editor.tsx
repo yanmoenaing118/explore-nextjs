@@ -1,7 +1,7 @@
 "use client";
 
 import { $getRoot, $getSelection, EditorThemeClasses } from "lexical";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
@@ -10,6 +10,10 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import ToolbarPlugin from "./components/ToolbarPlugin";
+import FloatingLinkEditorPlugin from "./components/FloatingLinkEditorPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+import AutoLinkPlugin from "./components/AutoLinkPlugin";
 
 const theme: EditorThemeClasses = {
   // Theme styling goes here
@@ -18,6 +22,8 @@ const theme: EditorThemeClasses = {
     underline: "text_underline",
     bold: "text_bold",
   },
+
+  link: "link",
 };
 
 // Catch any errors that occur during Lexical updates and log them
@@ -32,15 +38,29 @@ function Editor() {
     namespace: "MyEditor",
     theme,
     onError,
+    nodes: [AutoLinkNode, LinkNode],
+  };
+
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
+  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+      console.log(_floatingAnchorElem);
+    }
   };
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <ToolbarPlugin />
+      <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
       <div className="relative mt-8">
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className="relative z-10 outline-none" />
+            <div className="editor" ref={onRef}>
+              <ContentEditable className="relative z-10 outline-none" />
+            </div>
           }
           placeholder={
             <div className="absolute top-0 left-0 z-0">Enter some text...</div>
@@ -49,6 +69,15 @@ function Editor() {
         />
         <HistoryPlugin />
         <AutoFocusPlugin />
+        <AutoLinkPlugin />
+        <LinkPlugin />
+        {floatingAnchorElem && (
+          <FloatingLinkEditorPlugin
+            anchorElem={floatingAnchorElem}
+            isLinkEditMode={isLinkEditMode}
+            setIsLinkEditMode={setIsLinkEditMode}
+          />
+        )}
       </div>
     </LexicalComposer>
   );

@@ -16,9 +16,17 @@ import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 
 import { Dispatch, useCallback, useEffect, useState } from "react";
 import { CiUndo, CiRedo } from "react-icons/ci";
+import { FaArrowDown } from "react-icons/fa";
+// import { CiUndo, CiRedo } from "react-icons/c";
 import { RiBold, RiItalic, RiUnderline, RiLink } from "react-icons/ri";
 import { getSelectedNode } from "@/app/utils/getSelectedNode";
 import { sanitizeUrl } from "@/app/utils/sanitizeUrl";
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, useRef } from "react";
+import { LuPlus } from "react-icons/lu";
+import { INSERT_POLL_COMMAND } from "./PollPlugint";
+
+// import { FaArrowDown } from '@heroicons/react/20/solid'
 
 export default function ToolbarPlugin({
   setIsLinkEditMode,
@@ -37,10 +45,10 @@ export default function ToolbarPlugin({
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
+      // Text format
       setIsBold(selection.hasFormat("bold"));
       setIsItalic(selection.hasFormat("italic"));
       setIsUnderline(selection.hasFormat("underline"));
-      //   console.log(selection.hasFormat("bold"))
 
       // Update links
       const node = getSelectedNode(selection);
@@ -72,52 +80,12 @@ export default function ToolbarPlugin({
       }),
       activeEditor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
+          console.log(editorState.toJSON())
           $updateToolbar();
         });
       })
-      //   activeEditor.registerCommand<boolean>(
-      //     CAN_UNDO_COMMAND,
-      //     (payload) => {
-      //       setCanUndo(payload);
-      //       return false;
-      //     },
-      //     COMMAND_PRIORITY_CRITICAL,
-      //   ),
-      //   activeEditor.registerCommand<boolean>(
-      //     CAN_REDO_COMMAND,
-      //     (payload) => {
-      //       setCanRedo(payload);
-      //       return false;
-      //     },
-      //     COMMAND_PRIORITY_CRITICAL,
-      //   ),
     );
   }, [$updateToolbar, activeEditor, editor]);
-
-  //   useEffect(() => {
-  //     return activeEditor.registerCommand(
-  //       KEY_MODIFIER_COMMAND,
-  //       (payload) => {
-  //         const event: KeyboardEvent = payload;
-  //         const { code, ctrlKey, metaKey } = event;
-
-  //         if (code === "KeyK" && (ctrlKey || metaKey)) {
-  //           event.preventDefault();
-  //           let url: string | null;
-  //           if (!isLink) {
-  //             setIsLinkEditMode(true);
-  //             url = sanitizeUrl("https://");
-  //           } else {
-  //             setIsLinkEditMode(false);
-  //             url = null;
-  //           }
-  //           return activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
-  //         }
-  //         return false;
-  //       },
-  //       COMMAND_PRIORITY_NORMAL
-  //     );
-  //   }, [activeEditor, isLink, setIsLinkEditMode]);
 
   const insertLink = useCallback(() => {
     if (!isLink) {
@@ -174,6 +142,16 @@ export default function ToolbarPlugin({
         </button>
         <button className={isLink ? "active" : ""} onClick={insertLink}>
           <RiLink />
+        </button>
+      </div>
+
+      <div className="flex gap-4 border-r border-r-gray-300 px-4">
+        <button
+          className="flex gap-2 items-center border p-1 rounded text-sm"
+          onClick={() => activeEditor.dispatchCommand(INSERT_POLL_COMMAND, "")}
+        >
+          <LuPlus />
+          Insert Image
         </button>
       </div>
     </div>

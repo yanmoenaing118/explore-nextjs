@@ -9,11 +9,13 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import ToolbarPlugin from "./components/ToolbarPlugin";
-import FloatingLinkEditorPlugin from "./components/FloatingLinkEditorPlugin";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
-import AutoLinkPlugin from "./components/AutoLinkPlugin";
+import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
+import { PollNode } from "./nodes/CustomNode";
+import PollPlugin from "./plugins/PollPlugint";
 
 const theme: EditorThemeClasses = {
   // Theme styling goes here
@@ -38,7 +40,8 @@ function Editor() {
     namespace: "MyEditor",
     theme,
     onError,
-    nodes: [AutoLinkNode, LinkNode],
+    nodes: [AutoLinkNode, LinkNode, PollNode],
+    editorState: `{"root":{"children":[{"children":[{"type":"poll","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This os value","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"what i","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"aa","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"link","version":1,"rel":"noreferrer","target":null,"title":null,"url":"https://www.youtube.com"}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`,
   };
 
   const [floatingAnchorElem, setFloatingAnchorElem] =
@@ -71,6 +74,7 @@ function Editor() {
         <AutoFocusPlugin />
         <AutoLinkPlugin />
         <LinkPlugin />
+        <PollPlugin />
         {floatingAnchorElem && (
           <FloatingLinkEditorPlugin
             anchorElem={floatingAnchorElem}

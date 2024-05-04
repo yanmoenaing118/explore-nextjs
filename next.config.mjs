@@ -16,11 +16,26 @@ const nextConfig = {
             key: "Access-Control-Allow-Headers",
             value:
               "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
-          },
+          }
         ],
       },
+      {
+        source: "/",
+        headers: [
+          {
+            "key": "Cache-Control",
+            value: "s-maxage:320"
+          }
+        ]
+      }
     ];
   },
+
+  images: {
+    domains: ["croucher-public.s3.ap-southeast-1.amazonaws.com"],
+  },
+
+  // assetPrefix: "https://cdn.my.com"
 };
 
 export default nextConfig;

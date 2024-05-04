@@ -1,6 +1,8 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { cookies } from "next/headers";
 
+// cookies();
 export default function Home() {
   return (
     <main className={styles.main}>
@@ -93,3 +95,5 @@ export default function Home() {
     </main>
   );
 }
+
+// export const revalidate = 0

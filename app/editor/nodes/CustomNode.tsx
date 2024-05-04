@@ -61,12 +61,14 @@ export class PollNode extends DecoratorNode<JSX.Element> {
   }
 
   createDOM(): HTMLElement {
-    return document.createElement("div");
+    const el = document.createElement("div");
+    el.className = 'ti'
+    return el;
   }
 
-  updateDOM(): false {
-    return false;
-  }
+  // updateDOM(): false {
+  //   return false;
+  // }
 
   decorate(): JSX.Element {
     return (

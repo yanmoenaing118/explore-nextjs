@@ -80,7 +80,7 @@ export default function ToolbarPlugin({
       }),
       activeEditor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
-          console.log(editorState.toJSON())
+          // console.log(editorState.toJSON())
           $updateToolbar();
         });
       })

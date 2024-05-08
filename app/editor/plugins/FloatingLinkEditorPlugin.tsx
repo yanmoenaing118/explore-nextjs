@@ -52,7 +52,7 @@ function FloatingLinkEditor({
   anchorElem: HTMLElement;
   isLinkEditMode: boolean;
   setIsLinkEditMode: Dispatch<boolean>;
-}): JSX.Element {
+}): JSX.Element | null {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [linkUrl, setLinkUrl] = useState("");
@@ -216,13 +216,14 @@ function FloatingLinkEditor({
     }
   };
 
+  if(!isLink) return null;
   return (
-    <div ref={editorRef} className="link-editor">
+    <div ref={editorRef} className="link-editor p-2">
       {!isLink ? null : isLinkEditMode ? (
         <>
           <input
             ref={inputRef}
-            className="link-input"
+            className="w-full outline-none border-none"
             value={editedLinkUrl}
             onChange={(event) => {
               setEditedLinkUrl(event.target.value);
@@ -252,7 +253,7 @@ function FloatingLinkEditor({
           </div>
         </>
       ) : (
-        <div className="link-view flex gap-4 items-center">
+        <div className="link-view flex w-full justify-between items-center">
           <div>
             <a
               href={sanitizeUrl(linkUrl)}

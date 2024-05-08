@@ -62,7 +62,7 @@ export class PollNode extends DecoratorNode<JSX.Element> {
 
   createDOM(): HTMLElement {
     const el = document.createElement("div");
-    el.className = 'ti'
+    el.className = "ti";
     return el;
   }
 

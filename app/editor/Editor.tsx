@@ -16,6 +16,7 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import { PollNode } from "./nodes/CustomNode";
 import PollPlugin from "./plugins/PollPlugint";
+import FloatingActionPlugin from "./plugins/FloatingActionPlugin";
 
 const theme: EditorThemeClasses = {
   // Theme styling goes here
@@ -83,6 +84,9 @@ function Editor() {
           />
         )}
       </div>
+      {floatingAnchorElem && (
+        <FloatingActionPlugin anchorElem={floatingAnchorElem} />
+      )}
     </LexicalComposer>
   );
 }

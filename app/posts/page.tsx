@@ -1,8 +1,14 @@
 import { cookies } from "next/headers";
+import Posts from "./Posts";
+
+
 
 async function getData(p: string) {
-    cookies();
-  const res = await fetch("http://localhost:3001/posts", { next: { revalidate: 30}});
+  const res = await fetch("http://localhost:8080/api/posts", {
+    cache: "no-store"
+  });
+  // const res1 = await fetch("http://localhost:8080/api/posts");
+  // const res2 = await fetch("http://localhost:8080/api/posts");
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
 
@@ -15,12 +21,15 @@ async function getData(p: string) {
 }
 
 type PageProps = {
-    params: { slug: string };
-    searchParams?: { [key: string]: string | string[] | undefined };
-  }
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
 
 export default async function Page({ params }: PageProps) {
   const data = await getData(params.slug);
-  return <main>{JSON.stringify(data)}</main>;
+  return (
+    <main>
+      <Posts posts={data} />
+    </main>
+  );
 }
-

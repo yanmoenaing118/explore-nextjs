@@ -59,7 +59,7 @@ export default function ToolbarPlugin({
         setIsLink(false);
       }
     }
-  }, [activeEditor]);
+  }, []);
 
   useEffect(() => {
     return editor.registerCommand(
@@ -98,7 +98,7 @@ export default function ToolbarPlugin({
       setIsLinkEditMode(false);
       activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }
-  }, [editor, activeEditor, isLink, setIsLinkEditMode]);
+  }, [activeEditor, isLink, setIsLinkEditMode]);
 
   return (
     <div className="flex gap-3 shadow-md px-2 py-3">

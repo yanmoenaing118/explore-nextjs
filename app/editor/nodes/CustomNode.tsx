@@ -66,9 +66,9 @@ export class PollNode extends DecoratorNode<JSX.Element> {
     return el;
   }
 
-  // updateDOM(): false {
-  //   return false;
-  // }
+  updateDOM(): false {
+    return false;
+  }
 
   decorate(): JSX.Element {
     return (

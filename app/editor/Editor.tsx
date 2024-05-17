@@ -84,9 +84,9 @@ function Editor() {
           />
         )}
       </div>
-      {/* {floatingAnchorElem && (
+      {floatingAnchorElem && (
         <FloatingActionPlugin anchorElem={floatingAnchorElem} />
-      )} */}
+      )}
     </LexicalComposer>
   );
 }

@@ -22,3 +22,7 @@
   color: rgb(33, 111, 219);
   text-decoration: none;
 }
+
+* {
+  box-sizing: border-box !important;
+}

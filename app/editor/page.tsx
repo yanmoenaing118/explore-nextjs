@@ -1,11 +1,9 @@
-"use client";
+import AppEditor from "../components/editor/AppEditor";
 
-import Editor from "./Editor";
-
-export default function EditorPage() {
+export default function page() {
   return (
-    <div className="editor-page max-w-[780px] mx-auto mt-6">
-        <Editor />
+    <div className="max-w-[1208px] mx-auto">
+      <AppEditor />
     </div>
-  )
+  );
 }

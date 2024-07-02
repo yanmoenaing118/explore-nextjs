@@ -32,9 +32,11 @@ import {
   AiOutlineItalic,
   AiOutlineUnderline,
 } from "react-icons/ai";
-import { IoColorPaletteOutline } from "react-icons/io5";
+import { IoColorPaletteOutline, IoImage } from "react-icons/io5";
 import classNames from "classnames";
 import { VscHorizontalRule } from "react-icons/vsc";
+import { INSERT_PAEG_BREAK } from "./PageBreakPlugin";
+import { InlineImageUploadForm } from "./InlineImagePlugin";
 
 const blockTypeToBlockName = {
   bullet: "Bulleted List",
@@ -65,6 +67,18 @@ export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
 
   const [activeEditor, setActiveEditor] = useState(editor);
+
+  const [showInlineImageUploadForm, setShowInlineImageUploadForm] = useState();
+
+  const rootEl = activeEditor.getRootElement();
+  let l = 0;
+  let t = 0;
+
+  if (rootEl) {
+    const { left, top } = rootEl.getBoundingClientRect();
+    l = left - 40;
+    t = top;
+  }
 
   const [blockType, setBlockType] = useState<
     keyof typeof blockTypeToBlockName | undefined
@@ -175,7 +189,6 @@ export default function ToolbarPlugin() {
   };
 
   const formatBulletList = () => {
-    console.log(blockType);
     if (blockType !== "bullet") {
       activeEditor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     } else {
@@ -184,7 +197,6 @@ export default function ToolbarPlugin() {
   };
 
   const formatNumberedList = () => {
-    console.log(blockType);
     if (blockType !== "number") {
       activeEditor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
@@ -205,128 +217,142 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className="relative shadow-md rounded-md px-2 mt-4 flex items-center py-4 gap-4 mb-4">
-      <ToolbarItems>
-        <button
-          className={classNames(
-            blockType === "h1" && activeClassName,
-            btnClassName
-          )}
-          onClick={() => formatHeading("h1")}
-        >
-          H1
-        </button>
-        <button
-          className={classNames(
-            blockType === "h2" && activeClassName,
-            btnClassName
-          )}
-          onClick={() => formatHeading("h2")}
-        >
-          H2
-        </button>
-        <button
-          className={classNames(
-            blockType === "h3" && activeClassName,
-            btnClassName
-          )}
-          onClick={() => formatHeading("h3")}
-        >
-          H3
-        </button>
-      </ToolbarItems>
-      <Divider />
-      <ToolbarItems>
-        <button
-          className={classNames(btnClassName, isBold ? activeClassName : "")}
-          onClick={() =>
-            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")
-          }
-        >
-          <AiOutlineBold />
-        </button>
-        <button
-          className={classNames(btnClassName, isItalic ? activeClassName : "")}
-          onClick={() =>
-            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")
-          }
-        >
-          <AiOutlineItalic />
-        </button>
-        <button
-          className={classNames(
-            btnClassName,
-            isUnderline ? activeClassName : ""
-          )}
-          onClick={() =>
-            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")
-          }
-        >
-          <AiOutlineUnderline />
-        </button>
-      </ToolbarItems>
-      <Divider />
-      <ToolbarItems>
-        <button
-          className={classNames(
-            btnClassName,
-            blockType === "number" ? activeClassName : ""
-          )}
-          onClick={formatNumberedList}
-        >
-          <AiOutlineOrderedList />
-        </button>
-        <button
-          className={classNames(
-            btnClassName,
-            blockType === "bullet" ? activeClassName : ""
-          )}
-          onClick={formatBulletList}
-        >
-          <AiOutlineUnorderedList />
-        </button>
-      </ToolbarItems>
-      <Divider />
+    <>
+      <div className="relative shadow-md rounded-md px-2 mt-4 flex items-center py-4 gap-4 mb-4">
+        <ToolbarItems>
+          <button
+            className={classNames(
+              blockType === "h1" && activeClassName,
+              btnClassName
+            )}
+            onClick={() => formatHeading("h1")}
+          >
+            H1
+          </button>
+          <button
+            className={classNames(
+              blockType === "h2" && activeClassName,
+              btnClassName
+            )}
+            onClick={() => formatHeading("h2")}
+          >
+            H2
+          </button>
+          <button
+            className={classNames(
+              blockType === "h3" && activeClassName,
+              btnClassName
+            )}
+            onClick={() => formatHeading("h3")}
+          >
+            H3
+          </button>
+        </ToolbarItems>
+        <Divider />
+        <ToolbarItems>
+          <button
+            className={classNames(btnClassName, isBold ? activeClassName : "")}
+            onClick={() =>
+              activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")
+            }
+          >
+            <AiOutlineBold />
+          </button>
+          <button
+            className={classNames(
+              btnClassName,
+              isItalic ? activeClassName : ""
+            )}
+            onClick={() =>
+              activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")
+            }
+          >
+            <AiOutlineItalic />
+          </button>
+          <button
+            className={classNames(
+              btnClassName,
+              isUnderline ? activeClassName : ""
+            )}
+            onClick={() =>
+              activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")
+            }
+          >
+            <AiOutlineUnderline />
+          </button>
+        </ToolbarItems>
+        <Divider />
+        <ToolbarItems>
+          <button
+            className={classNames(
+              btnClassName,
+              blockType === "number" ? activeClassName : ""
+            )}
+            onClick={formatNumberedList}
+          >
+            <AiOutlineOrderedList />
+          </button>
+          <button
+            className={classNames(
+              btnClassName,
+              blockType === "bullet" ? activeClassName : ""
+            )}
+            onClick={formatBulletList}
+          >
+            <AiOutlineUnorderedList />
+          </button>
+        </ToolbarItems>
+        <Divider />
 
-      <ToolbarItems>
-        <button>
-          <label htmlFor="color">A</label>
-          <input
-            hidden
-            type="color"
-            name="color"
-            id="color"
-            onChange={(e) => onFontColorSelect(e.target.value, false)}
-          />
-        </button>
-      </ToolbarItems>
-      <ToolbarItems>
-        <button>
-          <label htmlFor="bg-color">
-            <IoColorPaletteOutline />
-          </label>
-          <input
-            type="color"
-            hidden
-            name="bg-color"
-            id="bg-color"
-            onChange={(e) => onBgColorSelect(e.target.value, false)}
-          />
-        </button>
-      </ToolbarItems>
-      <Divider />
-      <ToolbarItems>
-        <button
-          onClick={() =>
-            activeEditor.dispatchCommand(
-              INSERT_HORIZONTAL_RULE_COMMAND,
-              undefined
-            )
-          }
-        >
-          <VscHorizontalRule />
-        </button>
-      </ToolbarItems>
-    </div>
+        <ToolbarItems>
+          <button>
+            <label htmlFor="color">A</label>
+            <input
+              hidden
+              type="color"
+              name="color"
+              id="color"
+              onChange={(e) => onFontColorSelect(e.target.value, false)}
+            />
+          </button>
+        </ToolbarItems>
+        <ToolbarItems>
+          <button>
+            <label htmlFor="bg-color">
+              <IoColorPaletteOutline />
+            </label>
+            <input
+              type="color"
+              hidden
+              name="bg-color"
+              id="bg-color"
+              onChange={(e) => onBgColorSelect(e.target.value, false)}
+            />
+          </button>
+        </ToolbarItems>
+        <Divider />
+        <ToolbarItems>
+          <button
+            onClick={() =>
+              // activeEditor.dispatchCommand(
+              //   INSERT_HORIZONTAL_RULE_COMMAND,
+              //   undefined
+              // )
+              activeEditor.dispatchCommand(INSERT_PAEG_BREAK, undefined)
+            }
+          >
+            <VscHorizontalRule />
+          </button>
+        </ToolbarItems>
+        <ToolbarItems>
+          <button>
+            <IoImage />
+          </button>
+        </ToolbarItems>
+      </div>
+      {/* {showInlineImageUploadForm && <InlineImageUploadForm
+      
+      />} */}
+    </>
   );
 }

@@ -1,10 +1,37 @@
+import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
+  // console.log("nextUrl", request.nextUrl);
+  // console.log("url", request.url);
+  // console.log("cookies", request.cookies.getAll());
+  // console.log("cookies", cookies().getAll());
+  // console.log(request.headers);
+  // console.log(headers());
+  // console.log(request.headers.get("cookie"));
+  // console.log(request.cookies.get("auth"), cookies().get("auth"));
+
+  // cookies().set("from-middleware", "my middare ware value");
+
+  // return NextResponse.redirect(new URL("/home", request.url));
+
+  // console.log("nextUrl.search", request.nextUrl.search);
+  // console.log("nextUrl.searchParams", request.nextUrl.searchParams.get("pid"));
+
   const response = NextResponse.next();
-  response.cookies.set("vercel", "fast");
-  const cookie = response.cookies.get("vercel");
+  // response.headers.set("x-test", "x-test-value");
+
+  if (request.nextUrl.pathname.startsWith("/about-us")) {
+    return NextResponse.rewrite(new URL("/editor", request.url));
+  }
+
+  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+    console.log("das");
+    return NextResponse.redirect(new URL("/scholar/1", request.url));
+  }
+
+  console.log("middleware");
   return response;
 }
 
@@ -17,6 +44,14 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    {
+      source: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+      missing: [
+        {
+          type: "header",
+          key: "x-test",
+        },
+      ],
+    },
   ],
 };

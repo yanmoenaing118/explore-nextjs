@@ -8,6 +8,7 @@ import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
 import Editor from "./Editor";
 
 import type { EditorThemeClasses } from "lexical";
+import { PageBreakNode } from "./nodes/PageBreakNode";
 
 const theme: EditorThemeClasses = {
   heading: {
@@ -30,7 +31,7 @@ export default function AppEditor() {
   const initialConfig = {
     editorState: null,
     namespace: "Playground",
-    nodes: [HeadingNode, ListItemNode, ListNode, HorizontalRuleNode],
+    nodes: [HeadingNode, ListItemNode, ListNode, HorizontalRuleNode, PageBreakNode],
     onError: (error: Error) => {
       throw error;
     },

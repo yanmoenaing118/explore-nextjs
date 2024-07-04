@@ -109,7 +109,11 @@ export class PageBreakNode extends DecoratorNode<JSX.Element> {
     return "page-break";
   }
 
-  /** START: JSON  */
+  /** START: JSON
+   *
+   * without this method we cannot serialize this node to a JSON format to be saved in a permanent storage such db or localstorage
+   *
+   */
   exportJSON(): SerializedLexicalNode {
     return {
       type: this.getType(),
@@ -117,6 +121,9 @@ export class PageBreakNode extends DecoratorNode<JSX.Element> {
     };
   }
 
+  /**
+   * without this method we cannot initialize editorState with json exported from exportJSON()
+   */
   static importJSON(_serializedNode: SerializedLexicalNode): PageBreakNode {
     return $createPageBreakNode();
   }
@@ -124,21 +131,21 @@ export class PageBreakNode extends DecoratorNode<JSX.Element> {
   /** END: JSON  */
 
   /** START: DOM */
-  static importDOM(): DOMConversionMap | null {
-    return {
-      figure: (node: HTMLElement) => {
-        const type = node.getAttribute("type");
-        if (type !== this.getType()) {
-          return null;
-        }
+  // static importDOM(): DOMConversionMap | null {
+  //   return {
+  //     figure: (node: HTMLElement) => {
+  //       const type = node.getAttribute("type");
+  //       if (type !== this.getType()) {
+  //         return null;
+  //       }
 
-        return {
-          conversion: $convertPageBreakElement,
-          priority: COMMAND_PRIORITY_HIGH,
-        };
-      },
-    };
-  }
+  //       return {
+  //         conversion: $convertPageBreakElement,
+  //         priority: COMMAND_PRIORITY_HIGH,
+  //       };
+  //     },
+  //   };
+  // }
 
   createDOM(_config: EditorConfig, _editor: LexicalEditor): HTMLElement {
     const el = document.createElement("figure");

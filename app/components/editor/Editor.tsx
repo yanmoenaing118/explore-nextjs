@@ -15,6 +15,7 @@ import PageBreakPlugin from "./plugins/PageBreakPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { $generateHtmlFromNodes } from "@lexical/html";
 import { EditorState, LexicalEditor } from "lexical";
+import CustomH1Plugin from "./plugins/CustomH1Plugin";
 
 function Placeholder() {
   return (
@@ -57,12 +58,22 @@ export default function Editor() {
         <AutoFocusPlugin />
 
         {/** Custom Plugins */}
+        <CustomH1Plugin />
         <PageBreakPlugin />
         <OnChangePlugin
           onChange={(editorState: EditorState, editor: LexicalEditor) => {
             editor.update(() => {
+              const json = JSON.stringify(editor.getEditorState());
+              const parsedJson = JSON.parse(json);
+
+              console.log(json);
+              console.log(parsedJson);
+
+              // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
               const raw = $generateHtmlFromNodes(editor, null);
-              // console.log(raw)
+              const el = document.createElement("div");
+              el.innerHTML = raw;
+              console.log(el);
             });
           }}
         />

@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <nav className="py-6 border-b">Main Navbar</nav>
+        <nav className="p-6 border-b">Main Navbar</nav>
         {children}
       </body>
     </html>

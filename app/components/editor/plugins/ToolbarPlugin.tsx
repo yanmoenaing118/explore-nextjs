@@ -229,7 +229,7 @@ export default function ToolbarPlugin() {
           >
             H1
           </button>
-          <button
+          {/* <button
             className={classNames(
               blockType === "h2" && activeClassName,
               btnClassName
@@ -246,7 +246,7 @@ export default function ToolbarPlugin() {
             onClick={() => formatHeading("h3")}
           >
             H3
-          </button>
+          </button> */}
         </ToolbarItems>
         <Divider />
         <ToolbarItems>

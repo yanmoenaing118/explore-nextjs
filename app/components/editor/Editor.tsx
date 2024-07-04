@@ -16,6 +16,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { $generateHtmlFromNodes } from "@lexical/html";
 import { EditorState, LexicalEditor } from "lexical";
 import CustomH1Plugin from "./plugins/CustomH1Plugin";
+import BlockquotePlugin from "./plugins/BlockquotePlugin";
 
 function Placeholder() {
   return (
@@ -32,8 +33,12 @@ export default function Editor() {
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
       setFloatingAnchorElem(_floatingAnchorElem);
-      //   console.log(_floatingAnchorElem)
+        console.log('floadinganchor',_floatingAnchorElem)
+        console.log('floadinganchor rect',_floatingAnchorElem.getBoundingClientRect())
+      // console.log(_floatingAnchorElem)
     }
+    console.log(_floatingAnchorElem)
+
   };
 
   return (
@@ -59,21 +64,22 @@ export default function Editor() {
 
         {/** Custom Plugins */}
         <CustomH1Plugin />
+        <BlockquotePlugin anchor={floatingAnchorElem} />
         <PageBreakPlugin />
         <OnChangePlugin
           onChange={(editorState: EditorState, editor: LexicalEditor) => {
             editor.update(() => {
-              const json = JSON.stringify(editor.getEditorState());
-              const parsedJson = JSON.parse(json);
+              // const json = JSON.stringify(editor.getEditorState());
+              // const parsedJson = JSON.parse(json);
 
-              console.log(json);
-              console.log(parsedJson);
+              // console.log(json);
+              // console.log(parsedJson);
 
-              // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
-              const raw = $generateHtmlFromNodes(editor, null);
-              const el = document.createElement("div");
-              el.innerHTML = raw;
-              console.log(el);
+              // // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
+              // const raw = $generateHtmlFromNodes(editor, null);
+              // const el = document.createElement("div");
+              // el.innerHTML = raw;
+              // console.log(el);
             });
           }}
         />

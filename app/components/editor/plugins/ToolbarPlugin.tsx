@@ -37,6 +37,8 @@ import classNames from "classnames";
 import { VscHorizontalRule } from "react-icons/vsc";
 import { INSERT_PAEG_BREAK } from "./PageBreakPlugin";
 import { InlineImageUploadForm } from "./InlineImagePlugin";
+import { INSERT_CUSTOM_H1_COMMAND } from "./CustomH1Plugin";
+import { INSERT_BLOCKQUOTE } from "./BlockquotePlugin";
 
 const blockTypeToBlockName = {
   bullet: "Bulleted List",
@@ -59,7 +61,7 @@ const btnClassName = "p-1 rounded-sm cursor-pointer";
 function Divider() {
   return <div className="h-[15px] w-[1px] bg-gray-400 mx-2"></div>;
 }
-function ToolbarItems({ children }: { children: React.ReactNode }) {
+export function ToolbarItems({ children }: { children: React.ReactNode }) {
   return <div className="flex items-center gap-1">{children}</div>;
 }
 
@@ -345,7 +347,11 @@ export default function ToolbarPlugin() {
           </button>
         </ToolbarItems>
         <ToolbarItems>
-          <button>
+          <button
+            onClick={() =>
+              activeEditor.dispatchCommand(INSERT_BLOCKQUOTE, undefined)
+            }
+          >
             <IoImage />
           </button>
         </ToolbarItems>

@@ -16,7 +16,8 @@ export class CustomH1Node extends ElementNode {
   }
 
   createDOM(_config: EditorConfig, _editor: LexicalEditor): HTMLElement {
-    const dom = document.createElement("h1");
+    const dom = document.createElement("blockquote");
+    dom.className = "font-bold text-2xl pl-[60px] custom-h1";
     return dom;
   }
 
@@ -27,6 +28,8 @@ export class CustomH1Node extends ElementNode {
   ): boolean {
     return false;
   }
+
+
 }
 
 export function $createCustomH1Node() {

@@ -10,6 +10,9 @@ import Editor from "./Editor";
 import type { EditorThemeClasses } from "lexical";
 import { PageBreakNode } from "./nodes/PageBreakNode";
 import { CustomH1Node } from "./nodes/CustomH1";
+import { BlockquoteContentNode } from "./nodes/blockquote/BlockquoteContentNode";
+import { BlockquoteTitleNode } from "./nodes/blockquote/BlockquoteTitleNode";
+import { BlockquoteContainerNode } from "./nodes/blockquote/BlockquoteContainerNode";
 
 const theme: EditorThemeClasses = {
   heading: {
@@ -30,10 +33,18 @@ const theme: EditorThemeClasses = {
 
 export default function AppEditor() {
   const initialConfig = {
-    editorState: `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"1","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"2","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"3","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"fa","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}
-`,
     namespace: "Playground",
-    nodes: [HeadingNode, ListItemNode, ListNode, HorizontalRuleNode, PageBreakNode, CustomH1Node],
+    nodes: [
+      HeadingNode,
+      ListItemNode,
+      ListNode,
+      HorizontalRuleNode,
+      PageBreakNode,
+      CustomH1Node,
+      BlockquoteContentNode,
+      BlockquoteTitleNode,
+      BlockquoteContainerNode,
+    ],
     onError: (error: Error) => {
       throw error;
     },

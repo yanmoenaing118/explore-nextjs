@@ -24,6 +24,7 @@ import { $createBlockquoteContentNode } from "../nodes/blockquote/BlockquoteCont
 import {
   $createBlockquoteContainerNode,
   $isBlockquoteContainerNode,
+  UpdateBlockquoteContainerPayload,
 } from "../nodes/blockquote/BlockquoteContainerNode";
 import { createPortal } from "react-dom";
 import { ToolbarItems } from "./ToolbarPlugin";
@@ -144,6 +145,25 @@ export default function BlockquotePlugin({
 
   if (!isBlockquote) return null;
 
+  const handleUpdatePosition = (payload: UpdateBlockquoteContainerPayload) => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        const anchorNode = selection.anchor.getNode();
+        const element = $findMatchingParent(anchorNode, (e) => {
+          const parent = e.getParent();
+          return parent !== null && $isRootOrShadowRoot(parent);
+        });
+
+        if (!element) return;
+
+        if ($isBlockquoteContainerNode(element)) {
+          element.update(payload);
+        }
+      }
+    });
+  };
+
   return createPortal(
     <div
       className="bg-white shadow-lg rounded p-2 absolute top-0 right-0"
@@ -152,13 +172,34 @@ export default function BlockquotePlugin({
       }}
     >
       <ToolbarItems>
-        <button className="p-2 hover:bg-gray-300 rounded transition-all duration-75">
+        <button
+          className="p-2 hover:bg-gray-300 rounded transition-all duration-75"
+          onClick={() =>
+            handleUpdatePosition({
+              position: "left",
+            })
+          }
+        >
           <MdAlignHorizontalLeft />
         </button>
-        <button className="p-2 hover:bg-gray-300 rounded transition-all duration-75">
+        <button
+          className="p-2 hover:bg-gray-300 rounded transition-all duration-75"
+          onClick={() =>
+            handleUpdatePosition({
+              position: "center",
+            })
+          }
+        >
           <MdAlignHorizontalCenter />
         </button>
-        <button className="p-2 hover:bg-gray-300 rounded transition-all duration-75">
+        <button
+          onClick={() =>
+            handleUpdatePosition({
+              position: "right",
+            })
+          }
+          className="p-2 hover:bg-gray-300 rounded transition-all duration-75"
+        >
           <MdAlignHorizontalRight />
         </button>
       </ToolbarItems>

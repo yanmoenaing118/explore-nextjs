@@ -33,11 +33,24 @@
 
 .blockquote-container {
   min-width: 340px;
-  max-width: 80%;
+  max-width: 90%;
   margin: auto;
-  border: 1px dashed lightgray;
   padding: 1em;
-  float: right;
+}
+
+.blockquote-container_left {
+    width: 50%;
+    float: left;
+}
+
+.blockquote-container_right {
+    width: 50%;
+    float: right;
+}
+
+.blockquote-container_center {
+    float: none;
+    width: 100%;
 }
 
 .blockquote-title {

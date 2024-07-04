@@ -33,12 +33,14 @@ export default function Editor() {
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
       setFloatingAnchorElem(_floatingAnchorElem);
-        console.log('floadinganchor',_floatingAnchorElem)
-        console.log('floadinganchor rect',_floatingAnchorElem.getBoundingClientRect())
+      console.log("floadinganchor", _floatingAnchorElem);
+      console.log(
+        "floadinganchor rect",
+        _floatingAnchorElem.getBoundingClientRect()
+      );
       // console.log(_floatingAnchorElem)
     }
-    console.log(_floatingAnchorElem)
-
+    console.log(_floatingAnchorElem);
   };
 
   return (
@@ -71,10 +73,8 @@ export default function Editor() {
             editor.update(() => {
               // const json = JSON.stringify(editor.getEditorState());
               // const parsedJson = JSON.parse(json);
-
               // console.log(json);
               // console.log(parsedJson);
-
               // // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
               // const raw = $generateHtmlFromNodes(editor, null);
               // const el = document.createElement("div");

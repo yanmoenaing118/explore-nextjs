@@ -1,6 +1,14 @@
 import { EditorConfig, ElementNode, LexicalEditor, LexicalNode } from "lexical";
 
+type Position = "left" | "right" | "center";
+
+export type UpdateBlockquoteContainerPayload = {
+  position: Position;
+};
+
 export class BlockquoteContainerNode extends ElementNode {
+  __position: Position = "center";
+
   static getType(): string {
     return "blockquote-container";
   }
@@ -11,16 +19,27 @@ export class BlockquoteContainerNode extends ElementNode {
 
   createDOM(_config: EditorConfig, _editor: LexicalEditor): HTMLElement {
     const div = document.createElement("div");
-    div.className = "blockquote-container";
+    div.className = `blockquote-container blockquote-container_${this.__position}`;
     return div;
   }
 
   updateDOM(
-    _prevNode: unknown,
+    _prevNode: BlockquoteContainerNode,
     _dom: HTMLElement,
     _config: EditorConfig
   ): boolean {
+    const position = this.__position;
+    // if (position !== _prevNode.__position) {
+    // }
+    _dom.className = `blockquote-container blockquote-container_${position}`;
+
     return false;
+  }
+
+  update(payload: UpdateBlockquoteContainerPayload): void {
+    const writable = this.getWritable();
+    const { position } = payload;
+    writable.__position = position;
   }
 }
 

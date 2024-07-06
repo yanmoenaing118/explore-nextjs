@@ -39,6 +39,8 @@ import { INSERT_PAEG_BREAK } from "./PageBreakPlugin";
 import { InlineImageUploadForm } from "./InlineImagePlugin";
 import { INSERT_CUSTOM_H1_COMMAND } from "./CustomH1Plugin";
 import { INSERT_BLOCKQUOTE } from "./BlockquotePlugin";
+import { TbPageBreak } from "react-icons/tb";
+
 
 const blockTypeToBlockName = {
   bullet: "Bulleted List",
@@ -62,7 +64,7 @@ function Divider() {
   return <div className="h-[15px] w-[1px] bg-gray-400 mx-2"></div>;
 }
 export function ToolbarItems({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center gap-1">{children}</div>;
+  return <div className="flex items-center gap-3">{children}</div>;
 }
 
 export default function ToolbarPlugin() {
@@ -353,6 +355,16 @@ export default function ToolbarPlugin() {
             }
           >
             <IoImage />
+          </button>
+          <button
+            onClick={() => {
+              activeEditor.dispatchCommand(
+                INSERT_HORIZONTAL_RULE_COMMAND,
+                undefined
+              );
+            }}
+          >
+            <TbPageBreak />
           </button>
         </ToolbarItems>
       </div>

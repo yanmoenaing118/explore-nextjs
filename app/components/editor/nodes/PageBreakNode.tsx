@@ -1,7 +1,17 @@
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import "./PageBreakNode.css";
+
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
 import { mergeRegister } from "@lexical/utils";
 import {
+  $applyNodeReplacement,
   $getNodeByKey,
   $getSelection,
   $isNodeSelection,
@@ -11,7 +21,7 @@ import {
   DecoratorNode,
   DOMConversionMap,
   DOMConversionOutput,
-  EditorConfig,
+  DOMExportOutput,
   KEY_BACKSPACE_COMMAND,
   KEY_DELETE_COMMAND,
   LexicalEditor,
@@ -19,7 +29,10 @@ import {
   NodeKey,
   SerializedLexicalNode,
 } from "lexical";
+import * as React from "react";
 import { useCallback, useEffect } from "react";
+
+export type SerializedPageBreakNode = SerializedLexicalNode;
 
 function PageBreakComponent({ nodeKey }: { nodeKey: NodeKey }) {
   const [editor] = useLexicalComposerContext();
@@ -40,22 +53,6 @@ function PageBreakComponent({ nodeKey }: { nodeKey: NodeKey }) {
     },
     [isSelected, nodeKey]
   );
-
-  // const $onDelete = useCallback(
-  //   (payload: KeyboardEvent) => {
-  //     if (isSelected && $isNodeSelection($getSelection())) {
-  //       const event: KeyboardEvent = payload;
-  //       event.preventDefault();
-  //       const node = $getNodeByKey(nodeKey);
-  //       if ($isInlineImageNode(node)) {
-  //         node.remove();
-  //         return true;
-  //       }
-  //     }
-  //     return false;
-  //   },
-  //   [isSelected, nodeKey],
-  // );
 
   useEffect(() => {
     return mergeRegister(
@@ -92,28 +89,51 @@ function PageBreakComponent({ nodeKey }: { nodeKey: NodeKey }) {
   useEffect(() => {
     const pbElem = editor.getElementByKey(nodeKey);
     if (pbElem !== null) {
-      isSelected
-        ? pbElem.classList.add("selected")
-        : pbElem.classList.remove("selected");
+      pbElem.className = isSelected ? "selected" : "";
     }
   }, [editor, isSelected, nodeKey]);
-  return null;
+
+  return <div>PAGE Preak CustoM Node</div>;
 }
 
 export class PageBreakNode extends DecoratorNode<JSX.Element> {
-  static clone(node: PageBreakNode): PageBreakNode {
-    return new PageBreakNode(node.__key);
-  }
-
   static getType(): string {
     return "page-break";
   }
 
-  /** START: JSON
-   *
-   * without this method we cannot serialize this node to a JSON format to be saved in a permanent storage such db or localstorage
-   *
-   */
+  static clone(node: PageBreakNode): PageBreakNode {
+    return new PageBreakNode(node.__key);
+  }
+
+  static importJSON(serializedNode: SerializedPageBreakNode): PageBreakNode {
+    return $createPageBreakNode();
+  }
+
+  static importDOM(): DOMConversionMap | null {
+    return {
+      figure: (domNode: HTMLElement) => {
+        const tp = domNode.getAttribute("type");
+        if (tp !== this.getType()) {
+          return null;
+        }
+
+        return {
+          conversion: $convertPageBreakElement,
+          priority: COMMAND_PRIORITY_HIGH,
+        };
+      },
+    };
+  }
+
+  exportDOM(editor: LexicalEditor): DOMExportOutput {
+    const el = document.createElement("figure");
+    el.style.pageBreakAfter = "always";
+    el.setAttribute("type", this.getType());
+    return {
+      element: el,
+    };
+  }
+
   exportJSON(): SerializedLexicalNode {
     return {
       type: this.getType(),
@@ -121,47 +141,20 @@ export class PageBreakNode extends DecoratorNode<JSX.Element> {
     };
   }
 
-  /**
-   * without this method we cannot initialize editorState with json exported from exportJSON()
-   */
-  static importJSON(_serializedNode: SerializedLexicalNode): PageBreakNode {
-    return $createPageBreakNode();
-  }
-
-  /** END: JSON  */
-
-  /** START: DOM */
-  // static importDOM(): DOMConversionMap | null {
-  //   return {
-  //     figure: (node: HTMLElement) => {
-  //       const type = node.getAttribute("type");
-  //       if (type !== this.getType()) {
-  //         return null;
-  //       }
-
-  //       return {
-  //         conversion: $convertPageBreakElement,
-  //         priority: COMMAND_PRIORITY_HIGH,
-  //       };
-  //     },
-  //   };
-  // }
-
-  createDOM(_config: EditorConfig, _editor: LexicalEditor): HTMLElement {
+  createDOM(): HTMLElement {
     const el = document.createElement("figure");
     el.style.pageBreakAfter = "always";
-    el.className = "h-[4px] border  border-gray-200";
     el.setAttribute("type", this.getType());
     return el;
   }
 
-  getTextContent(): string {
-    return "\n";
-  }
+  // getTextContent(): string {
+  //   return '\n';
+  // }
 
-  isInline(): false {
-    return false;
-  }
+  // isInline(): false {
+  //   return false;
+  // }
 
   updateDOM(): boolean {
     return false;
@@ -173,13 +166,11 @@ export class PageBreakNode extends DecoratorNode<JSX.Element> {
 }
 
 function $convertPageBreakElement(): DOMConversionOutput {
-  return {
-    node: $createPageBreakNode(),
-  };
+  return { node: $createPageBreakNode() };
 }
 
-export function $createPageBreakNode() {
-  return new PageBreakNode();
+export function $createPageBreakNode(): PageBreakNode {
+  return $applyNodeReplacement(new PageBreakNode());
 }
 
 export function $isPageBreakNode(

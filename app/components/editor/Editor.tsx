@@ -71,9 +71,9 @@ export default function Editor() {
         <OnChangePlugin
           onChange={(editorState: EditorState, editor: LexicalEditor) => {
             editor.update(() => {
-              // const json = JSON.stringify(editor.getEditorState());
-              // const parsedJson = JSON.parse(json);
-              // console.log(json);
+              const json = JSON.stringify(editor.getEditorState());
+              const parsedJson = JSON.parse(json);
+              console.log(json);
               // console.log(parsedJson);
               // // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
               // const raw = $generateHtmlFromNodes(editor, null);

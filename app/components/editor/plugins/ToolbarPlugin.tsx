@@ -284,7 +284,7 @@ export default function ToolbarPlugin() {
           </button>
         </ToolbarItems>
         <Divider />
-        <ToolbarItems>
+        {/* <ToolbarItems>
           <button
             className={classNames(
               btnClassName,
@@ -303,7 +303,7 @@ export default function ToolbarPlugin() {
           >
             <AiOutlineUnorderedList />
           </button>
-        </ToolbarItems>
+        </ToolbarItems> */}
         <Divider />
 
         <ToolbarItems>

@@ -1,4 +1,4 @@
-import { EditorConfig, ElementNode, LexicalEditor, LexicalNode } from "lexical";
+import { EditorConfig, ElementNode, LexicalEditor, LexicalNode, SerializedElementNode, SerializedLexicalNode } from "lexical";
 
 export class BlockquoteContentNode extends ElementNode {
   static getType(): string {
@@ -21,6 +21,19 @@ export class BlockquoteContentNode extends ElementNode {
     _config: EditorConfig
   ): boolean {
     return false;
+  }
+
+  static importJSON(_serializedNode: SerializedLexicalNode): BlockquoteContentNode {
+    return $createBlockquoteContentNode() 
+   }
+ 
+
+  exportJSON(): SerializedElementNode {
+    return {
+      ...super.exportJSON(),
+      type: "blockquote-content",
+      version: 1,
+    };
   }
 }
 

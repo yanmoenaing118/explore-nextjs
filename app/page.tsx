@@ -1,12 +1,16 @@
 import { cookies, headers } from "next/headers";
 import HomePage from "./components/home/HomePage";
-import delay from "./utils/delay";
-import { useState } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Hello",
+  description: "Hello",
+};
+
 
 export default function Page() {
 
 
-  cookies();
   return (
     <div>
       <HomePage headers={headers()} />

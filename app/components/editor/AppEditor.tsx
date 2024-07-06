@@ -13,6 +13,7 @@ import { CustomH1Node } from "./nodes/CustomH1";
 import { BlockquoteContentNode } from "./nodes/blockquote/BlockquoteContentNode";
 import { BlockquoteTitleNode } from "./nodes/blockquote/BlockquoteTitleNode";
 import { BlockquoteContainerNode } from "./nodes/blockquote/BlockquoteContainerNode";
+import { editorState } from "./editorState";
 
 const theme: EditorThemeClasses = {
   heading: {
@@ -33,6 +34,7 @@ const theme: EditorThemeClasses = {
 
 export default function AppEditor() {
   const initialConfig = {
+    editorState,
     namespace: "Playground",
     nodes: [
       HeadingNode,

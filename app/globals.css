@@ -18,18 +18,18 @@
 .blockquote-container {
   min-width: 340px;
   max-width: 90%;
-  margin: auto;
+  margin: 30px;
   padding: 1em;
   background-color: lightgray;
 }
 
 .blockquote-container_left {
-    width: 50%;
+    width: 45%;
     float: left;
 }
 
 .blockquote-container_right {
-    width: 50%;
+    width: 45%;
     float: right;
 }
 

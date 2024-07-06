@@ -72,11 +72,12 @@ export default function Editor() {
           onChange={(editorState: EditorState, editor: LexicalEditor) => {
             editor.update(() => {
               const json = JSON.stringify(editor.getEditorState());
-              const parsedJson = JSON.parse(json);
-              console.log(json);
+              // const parsedJson = JSON.parse(json);
+              // console.log(json);
               // console.log(parsedJson);
               // // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
-              // const raw = $generateHtmlFromNodes(editor, null);
+              const raw = $generateHtmlFromNodes(editor, null);
+              console.log(raw)
               // const el = document.createElement("div");
               // el.innerHTML = raw;
               // console.log(el);

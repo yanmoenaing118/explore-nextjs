@@ -1,3 +1,5 @@
+import "../nodes/blockquote/Blockquote.css";
+
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -131,7 +133,7 @@ export default function BlockquotePlugin({
           const content = $createBlockquoteContentNode();
 
           $insertNodeToNearestRoot(
-            $createBlockquoteContainerNode().append(title, content)
+            $createBlockquoteContainerNode('center').append(title, content)
           );
 
           title.selectEnd();

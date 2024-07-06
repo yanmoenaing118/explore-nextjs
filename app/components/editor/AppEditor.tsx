@@ -9,11 +9,11 @@ import Editor from "./Editor";
 
 import type { EditorThemeClasses } from "lexical";
 import { PageBreakNode } from "./nodes/PageBreakNode";
-import { CustomH1Node } from "./nodes/CustomH1";
 import { BlockquoteContentNode } from "./nodes/blockquote/BlockquoteContentNode";
 import { BlockquoteTitleNode } from "./nodes/blockquote/BlockquoteTitleNode";
 import { BlockquoteContainerNode } from "./nodes/blockquote/BlockquoteContainerNode";
 import { editorState } from "./editorState";
+import { CustomDecoratorNode } from "./nodes/CustomDecoratorNode";
 
 const theme: EditorThemeClasses = {
   heading: {
@@ -42,10 +42,10 @@ export default function AppEditor() {
       ListNode,
       HorizontalRuleNode,
       PageBreakNode,
-      CustomH1Node,
       BlockquoteContentNode,
       BlockquoteTitleNode,
       BlockquoteContainerNode,
+      CustomDecoratorNode
     ],
     onError: (error: Error) => {
       throw error;

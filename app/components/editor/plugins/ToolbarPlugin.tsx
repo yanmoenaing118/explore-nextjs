@@ -40,7 +40,9 @@ import { InlineImageUploadForm } from "./InlineImagePlugin";
 import { INSERT_CUSTOM_H1_COMMAND } from "./CustomH1Plugin";
 import { INSERT_BLOCKQUOTE } from "./BlockquotePlugin";
 import { TbPageBreak } from "react-icons/tb";
-
+import { IconsManifest } from "react-icons";
+import { MdBook } from "react-icons/md";
+import { INSERT_DECORATOR_NODE } from "./CustomDecoratorPlugin";
 
 const blockTypeToBlockName = {
   bullet: "Bulleted List",
@@ -365,6 +367,13 @@ export default function ToolbarPlugin() {
             }}
           >
             <TbPageBreak />
+          </button>
+          <button
+            onClick={() => {
+              activeEditor.dispatchCommand(INSERT_DECORATOR_NODE, undefined);
+            }}
+          >
+            <MdBook />
           </button>
         </ToolbarItems>
       </div>

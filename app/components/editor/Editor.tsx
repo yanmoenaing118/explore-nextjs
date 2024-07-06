@@ -17,6 +17,8 @@ import { $generateHtmlFromNodes } from "@lexical/html";
 import { EditorState, LexicalEditor } from "lexical";
 import CustomH1Plugin from "./plugins/CustomH1Plugin";
 import BlockquotePlugin from "./plugins/BlockquotePlugin";
+import { CustomDecoratorNode } from "./nodes/CustomDecoratorNode";
+import CustomDecoratorPlugin from "./plugins/CustomDecoratorPlugin";
 
 function Placeholder() {
   return (
@@ -65,19 +67,21 @@ export default function Editor() {
         <AutoFocusPlugin />
 
         {/** Custom Plugins */}
-        <CustomH1Plugin />
+        {/* <CustomH1Plugin /> */}
+        <CustomDecoratorPlugin />
         <BlockquotePlugin anchor={floatingAnchorElem} />
         <PageBreakPlugin />
         <OnChangePlugin
           onChange={(editorState: EditorState, editor: LexicalEditor) => {
             editor.update(() => {
-              const json = JSON.stringify(editor.getEditorState());
+              // const json = JSON.stringify(editor.getEditorState());
+              // console.log(json);
               // const parsedJson = JSON.parse(json);
               // console.log(json);
               // console.log(parsedJson);
               // // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
               const raw = $generateHtmlFromNodes(editor, null);
-              console.log(raw)
+              console.log(raw);
               // const el = document.createElement("div");
               // el.innerHTML = raw;
               // console.log(el);

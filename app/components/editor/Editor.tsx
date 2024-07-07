@@ -42,7 +42,7 @@ export default function Editor() {
       );
       // console.log(_floatingAnchorElem)
     }
-    console.log(_floatingAnchorElem);
+    // console.log(_floatingAnchorElem);
   };
 
   return (

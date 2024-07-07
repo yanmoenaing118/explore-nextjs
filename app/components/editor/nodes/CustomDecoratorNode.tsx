@@ -1,5 +1,5 @@
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getNodeByKey,
   $getSelection,
@@ -18,8 +18,25 @@ import {
   Spread,
 } from "lexical";
 import { mergeRegister } from "@lexical/utils";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
+import { MdSettings } from "react-icons/md";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const NODE_TYPE = "custom-decorator-node";
 
@@ -32,6 +49,7 @@ type SerializedCustomDecoratorNode = Spread<
 
 let CustomDecoratorComponentClassName =
   "text-lg font-bold p-3 border rounded shadow-sm";
+
 const CustomDecoratorComponent = ({
   bgColor,
   nodeKey,
@@ -42,6 +60,7 @@ const CustomDecoratorComponent = ({
   const [editor] = useLexicalComposerContext();
   const [isSelected, setSelected, clearSelection] =
     useLexicalNodeSelection(nodeKey);
+  const [color, setColor] = useState(bgColor);
 
   const $onDelete = useCallback(
     (event: KeyboardEvent) => {
@@ -67,7 +86,7 @@ const CustomDecoratorComponent = ({
           const el = editor.getElementByKey(nodeKey);
 
           if (el == event.target) {
-            if(!event.shiftKey) {
+            if (!event.shiftKey) {
               clearSelection();
             }
             setSelected(!isSelected);
@@ -99,14 +118,59 @@ const CustomDecoratorComponent = ({
     }
   }, [isSelected, nodeKey]);
 
+  const updateNode = useCallback(() => {
+    editor.update(() => {
+      const node = $getNodeByKey(nodeKey);
+      if ($isCustomDecoratorNode(node)) {
+        node.update(color);
+      }
+    });
+  }, [editor, nodeKey, isSelected, color]);
+
   return (
-    <div
-      style={{
-        backgroundColor: bgColor,
-      }}
-    >
-      custom decorator node
-    </div>
+    <>
+      <div className="relative">
+        custom decorator node: {bgColor}
+        <Dialog>
+          <DialogTrigger>
+            <MdSettings className="absolute right-0 top-0" />
+          </DialogTrigger>
+          <DialogContent className="bg-white">
+            <DialogHeader>
+              <DialogTitle>Choose background Color</DialogTitle>
+              <DialogDescription>
+                <br />
+                <Select
+                  onValueChange={(value) => {
+                    // console.log('color change', value)
+                    setColor(value);
+                  }}
+                >
+                  <SelectTrigger className="w-full bg-white">
+                    <SelectValue placeholder="Theme" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white">
+                    <SelectItem value="pink">Pink</SelectItem>
+                    <SelectItem value="green">Green</SelectItem>
+                    <SelectItem value="purple">Purple</SelectItem>
+                  </SelectContent>
+                </Select>
+                <br />
+
+                <DialogClose
+                  onClick={(props) => {
+                    updateNode();
+                  }}
+                  className="flex justify-end border text-right rounded px-4 py-2 bg-green-400 text-white font-bold"
+                >
+                  Save
+                </DialogClose>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </>
   );
 };
 
@@ -127,6 +191,7 @@ export class CustomDecoratorNode extends DecoratorNode<JSX.Element> {
   }
 
   createDOM(_config: EditorConfig, _editor: LexicalEditor): HTMLElement {
+    console.log("createDOM", this.__color);
     const el = document.createElement("section");
     el.className = CustomDecoratorComponentClassName;
     el.style.backgroundColor = this.__color || "white";
@@ -134,10 +199,17 @@ export class CustomDecoratorNode extends DecoratorNode<JSX.Element> {
   }
 
   updateDOM(
-    _prevNode: unknown,
+    _prevNode: CustomDecoratorNode,
     _dom: HTMLElement,
     _config: EditorConfig
   ): boolean {
+    const color = this.__color;
+    console.log("2. updateDOM", color);
+
+    if (color != _prevNode.__color) {
+      _dom.style.backgroundColor = color;
+      // return true;
+    }
     return false;
   }
 
@@ -172,6 +244,14 @@ export class CustomDecoratorNode extends DecoratorNode<JSX.Element> {
     return {
       element,
     };
+  }
+
+  update(color: string) {
+    const writables = this.getWritable();
+    console.log("1. update", color);
+    if (color) {
+      writables.__color = color;
+    }
   }
 
   decorate(editor: LexicalEditor, config: EditorConfig): JSX.Element {

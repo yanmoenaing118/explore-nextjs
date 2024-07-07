@@ -1,5 +1,13 @@
 import "./globals.css";
 
+import { Inter as FontSans } from "next/font/google";
+
+import { cn } from "@/lib/utils";
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export default function RootLayout({
   children,
@@ -9,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <nav className="p-6 border-b">Main Navbar</nav>
+        <nav className={cn("p-6 border-b")}>Main Navbar</nav>
         {children}
       </body>
     </html>

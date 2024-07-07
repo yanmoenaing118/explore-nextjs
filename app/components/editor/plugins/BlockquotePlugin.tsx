@@ -43,7 +43,7 @@ export default function BlockquotePlugin({
 }: {
   anchor: HTMLDivElement | null;
 }) {
-  console.log("anchor element", anchor);
+  // console.log("anchor element", anchor);
   const [editor] = useLexicalComposerContext();
 
   const [isBlockquote, setIsBlockquote] = useState(false);

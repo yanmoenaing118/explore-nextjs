@@ -18,20 +18,11 @@ export default async function ScholarPage() {
 
   return (
     <div>
-      <h1>Scholar Page</h1>
-      <HomeStaticComponent />
-      <div>
-        <pre>{JSON.stringify(allPosts)}</pre>
-      </div>
-      <DetailInfo  id="abc"/>
-      <div>
-        <ul>
-          <li>
-            <Link href="/scholar/abc">Abc scholar</Link>
-            <Link href="/scholar/def">Def scholar</Link>
-          </li>
-        </ul>
-      </div>
+      {allPosts.map((post: any) => (
+        <div key={post.id}>
+          <Link href={`/scholar/${post.id}`}>{post.title}</Link>
+        </div>
+      ))}
     </div>
   );
 }

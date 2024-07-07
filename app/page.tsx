@@ -13,7 +13,7 @@ export default function Page() {
 
   return (
     <div>
-      <HomePage headers={headers()} />
+      {/* <HomePage headers={headers()} /> */}
 
     </div>
   );

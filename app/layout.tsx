@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -17,8 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <nav className={cn("p-6 border-b")}>Main Navbar</nav>
-        {children}
+        <nav className={"p-6 shadow-md mb-6 flex justify-around"}>
+          <Link href="/">Home</Link>
+          <Link href="/editor">Editor</Link>
+          <Link href="/scholar">Scholar</Link>
+        </nav>
+
+        <main className="max-w-[1220px] mx-auto">{children}</main>
       </body>
     </html>
   );

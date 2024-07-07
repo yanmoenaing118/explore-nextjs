@@ -6,7 +6,8 @@ export const getPosts = async (from: string = "") => {
     headers.append("x-api-key", cookies().get("vercel")?.value || "");
     
     const res = await fetch(process.env.API_URL + "/posts", {
-        headers
+        headers,
+        cache: "force-cache"
     });
 
     return await res.json();

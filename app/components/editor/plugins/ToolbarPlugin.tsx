@@ -224,7 +224,7 @@ export default function ToolbarPlugin() {
 
   return (
     <>
-      <div className="relative shadow-md rounded-md px-2 mt-4 flex items-center py-4 gap-4 mb-4">
+      <div className="relative shadow-md rounded-md px-2 flex items-center py-4 gap-4 mb-4">
         <ToolbarItems>
           <button
             className={classNames(

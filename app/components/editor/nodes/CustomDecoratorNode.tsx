@@ -131,7 +131,7 @@ const CustomDecoratorComponent = ({
     <>
       <div className="relative">
         custom decorator node: {bgColor}
-        <Dialog>
+        <Dialog >
           <DialogTrigger>
             <MdSettings className="absolute right-0 top-0" />
           </DialogTrigger>

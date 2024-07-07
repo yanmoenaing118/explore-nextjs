@@ -1,5 +1,6 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
+  $createParagraphNode,
   $getSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_EDITOR,
@@ -23,8 +24,11 @@ export default function CustomDecoratorPlugin() {
           if (!$isRangeSelection(selection)) return false;
           const focusNode = selection.focus.getNode();
           if (focusNode !== null) {
-            const node = $createCustomDecoratorNode("green");
+            const node = $createCustomDecoratorNode("pink");
+            const para = $createParagraphNode();
             $insertNodeToNearestRoot(node);
+            $insertNodeToNearestRoot(para);
+            para.selectEnd();
           }
           console.log('insert custom decorateor node')
           return true;

@@ -1,3 +1,6 @@
+import "./../nodes/CustomDecoratorNode.css";
+
+
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $createParagraphNode,

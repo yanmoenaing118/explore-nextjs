@@ -1,5 +1,8 @@
+
+
 import "../../components/editor/nodes/blockquote/Blockquote.css"
 import "../../components/editor/nodes/PageBreakNode.css"
+import "../../components/editor/nodes/CustomDecoratorNode.css"
 
 import { editorHTML } from "@/app/components/editor/editorState";
 

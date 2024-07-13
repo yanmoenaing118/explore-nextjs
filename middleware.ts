@@ -19,20 +19,20 @@ export function middleware(request: NextRequest) {
   // console.log("nextUrl.search", request.nextUrl.search);
   // console.log("nextUrl.searchParams", request.nextUrl.searchParams.get("pid"));
 
-  const response = NextResponse.next();
-  // response.headers.set("x-test", "x-test-value");
+  // const response = NextResponse.next();
+  // // response.headers.set("x-test", "x-test-value");
 
-  if (request.nextUrl.pathname.startsWith("/about-us")) {
-    return NextResponse.rewrite(new URL("/editor", request.url));
-  }
+  // if (request.nextUrl.pathname.startsWith("/edit")) {
+  //   return NextResponse.rewrite(new URL("/editor", request.url));
+  // }
 
-  if (request.nextUrl.pathname.startsWith("/dashboard")) {
-    console.log("das");
-    return NextResponse.redirect(new URL("/scholar/1", request.url));
-  }
+  // if (request.nextUrl.pathname.startsWith("/dashboard")) {
+  //   console.log("das");
+  //   return NextResponse.redirect(new URL("/scholar/1", request.url));
+  // }
 
-  console.log("middleware");
-  return response;
+  // console.log("middleware");
+  return NextResponse.next();
 }
 
 export const config = {

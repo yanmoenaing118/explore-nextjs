@@ -1,3 +1,4 @@
+
 import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
@@ -48,7 +49,7 @@ type SerializedCustomDecoratorNode = Spread<
 >;
 
 let CustomDecoratorComponentClassName =
-  "text-lg font-bold p-3 border rounded shadow-sm";
+  "text-lg font-bold p-3 border rounded shadow-sm relative min-h-[60px]" ;
 
 const CustomDecoratorComponent = ({
   bgColor,
@@ -131,7 +132,7 @@ const CustomDecoratorComponent = ({
     <>
       <div className="relative">
         custom decorator node: {bgColor}
-        <Dialog >
+        <Dialog>
           <DialogTrigger>
             <MdSettings className="absolute right-0 top-0" />
           </DialogTrigger>
@@ -238,7 +239,16 @@ export class CustomDecoratorNode extends DecoratorNode<JSX.Element> {
 
     /** html structure of CustomDecoratorComponent */
     const comp = document.createElement("div");
-    comp.textContent = "custom decorator node";
+
+    comp.innerHTML = `
+    <input type='checkbox' class='toggle' />
+    <span class='close'>x</span>
+    <span class='open'>+</span>
+    <span class='content'>
+      ${this.__color}
+    </span>
+    `;
+
     element.appendChild(comp);
 
     return {

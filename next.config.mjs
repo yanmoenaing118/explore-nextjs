@@ -37,15 +37,6 @@ const nextConfig = {
 
   // assetPrefix: "https://cdn.my.com"
 
-  async redirects() {
-    return [
-      {
-        source: "/about",
-        destination: "/editor",
-        permanent: true
-      }
-    ]
-  }
 };
 
 export default nextConfig;

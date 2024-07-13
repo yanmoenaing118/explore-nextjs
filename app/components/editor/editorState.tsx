@@ -1,3 +1,19 @@
 export const editorState = null;
 
-export const editorHTML = `<section class="text-lg font-bold p-3 border rounded shadow-sm" style="background-color: pink;"><div>custom decorator node</div></section><h1 class="text-3xl font-black" dir="ltr"><span style="white-space: pre-wrap;">Custom Node</span></h1><section class="text-lg font-bold p-3 border rounded shadow-sm" style="background-color: purple;"><div>custom decorator node</div></section><p dir="ltr"><b><strong class="font-bold" style="background-color: rgb(180, 60, 60); white-space: pre-wrap;">Hi</strong></b></p><section class="text-lg font-bold p-3 border rounded shadow-sm" style="background-color: pink;"><div>custom decorator node</div></section><p dir="ltr"><i><b><strong class="font-bold italic" style="background-color: rgb(180, 60, 60); white-space: pre-wrap;">Hello </strong></b></i></p><section class="text-lg font-bold p-3 border rounded shadow-sm" style="background-color: green;"><div>custom decorator node</div></section><p><br></p><p><br></p><p><br></p>`;
+export const editorHTML = `
+<p dir="ltr"><span style="white-space: pre-wrap;">fafa</span></p><section class="text-lg font-bold p-3 border rounded shadow-sm relative min-h-[60px]" style="background-color: green;"><div>
+    <input type="checkbox" class="toggle">
+    <span class="close">x</span>
+    <span class="open">+</span>
+    <span class="content">
+      green
+    </span>
+    </div></section><p><br></p><p><br></p><p><br></p><p dir="ltr"><span style="white-space: pre-wrap;">faffsf</span></p><p><br></p><section class="text-lg font-bold p-3 border rounded shadow-sm relative min-h-[60px]" style="background-color: purple;"><div>
+    <input type="checkbox" class="toggle">
+    <span class="close">x</span>
+    <span class="open">+</span>
+    <span class="content">
+      purple
+    </span>
+    </div></section><p><br></p><p><br></p><p><br></p>
+`;

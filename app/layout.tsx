@@ -18,11 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <nav className={"p-6 shadow-md mb-6 flex justify-around"}>
+        {/* <nav className={"p-6 shadow-md mb-6 flex justify-around"}>
           <Link href="/">Home</Link>
           <Link href="/editor">Editor</Link>
           <Link href="/scholar">Scholar</Link>
-        </nav>
+        </nav> */}
 
         <main className="max-w-[1220px] mx-auto">{children}</main>
       </body>

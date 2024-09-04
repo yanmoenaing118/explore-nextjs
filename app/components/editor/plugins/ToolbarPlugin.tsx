@@ -94,6 +94,14 @@ export default function ToolbarPlugin() {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
 
+  useEffect(() => {
+    console.log("rerendering....");
+  });
+
+  useEffect(() => {
+    console.log("rerendering.... editor chagen");
+  }, [editor]);
+
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
 

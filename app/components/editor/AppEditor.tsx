@@ -14,6 +14,7 @@ import { BlockquoteTitleNode } from "./nodes/blockquote/BlockquoteTitleNode";
 import { BlockquoteContainerNode } from "./nodes/blockquote/BlockquoteContainerNode";
 import { editorState } from "./editorState";
 import { CustomDecoratorNode } from "./nodes/CustomDecoratorNode";
+import { useEffect } from "react";
 
 const theme: EditorThemeClasses = {
   heading: {
@@ -37,21 +38,22 @@ export default function AppEditor() {
     editorState,
     namespace: "Playground",
     nodes: [
-      HeadingNode,
-      ListItemNode,
-      ListNode,
-      HorizontalRuleNode,
-      PageBreakNode,
-      BlockquoteContentNode,
-      BlockquoteTitleNode,
-      BlockquoteContainerNode,
-      CustomDecoratorNode
+      // HeadingNode,
+      // ListItemNode,
+      // ListNode,
+      // HorizontalRuleNode,
+      // PageBreakNode,
+      // BlockquoteContentNode,
+      // BlockquoteTitleNode,
+      // BlockquoteContainerNode,
+      // CustomDecoratorNode
     ],
     onError: (error: Error) => {
       throw error;
     },
     theme,
   };
+
 
   return (
     <LexicalComposer initialConfig={initialConfig}>

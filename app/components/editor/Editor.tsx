@@ -6,7 +6,7 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { HorizontalRulePlugin } from "@lexical/react/LexicalHorizontalRulePlugin";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import CursorFollowPlugin from "./plugins/CursorFollowPlugin";
@@ -14,11 +14,19 @@ import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import PageBreakPlugin from "./plugins/PageBreakPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { $generateHtmlFromNodes } from "@lexical/html";
-import { EditorState, LexicalEditor } from "lexical";
+import {
+  $createParagraphNode,
+  EditorState,
+  LexicalEditor,
+  TextNode,
+} from "lexical";
 import CustomH1Plugin from "./plugins/CustomH1Plugin";
 import BlockquotePlugin from "./plugins/BlockquotePlugin";
 import { CustomDecoratorNode } from "./nodes/CustomDecoratorNode";
 import CustomDecoratorPlugin from "./plugins/CustomDecoratorPlugin";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $insertNodes } from "lexical";
+import { $insertNodeToNearestRoot } from "@lexical/utils";
 
 function Placeholder() {
   return (
@@ -31,23 +39,48 @@ function Placeholder() {
 export default function Editor() {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
+  const [editor] = useLexicalComposerContext();
+
+  const changedEditor = useRef<LexicalEditor | undefined>(undefined);
+  const editorStateRef = useRef<EditorState | undefined>(undefined);
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
       setFloatingAnchorElem(_floatingAnchorElem);
-      console.log("floadinganchor", _floatingAnchorElem);
-      console.log(
-        "floadinganchor rect",
-        _floatingAnchorElem.getBoundingClientRect()
-      );
+      // console.log("floadinganchor", _floatingAnchorElem);
+      // console.log(
+      //   "floadinganchor rect",
+      //   _floatingAnchorElem.getBoundingClientRect()
+      // );
       // console.log(_floatingAnchorElem)
     }
     // console.log(_floatingAnchorElem);
   };
 
+  // useEffect(() => {
+  //   console.log('rerendering....')
+  // })
+
+  // useEffect(() => {
+  //   console.log('rerendering.... editor chagen')
+  // }, [editor])
+  let inserted = false;
+
+  useEffect(() => {
+    const un = editor.registerUpdateListener(() => {
+      editor.update(() => {
+        // $insertNodes([new TextNode('hello')])
+        // console.log('updated')
+        // $insertNodeToNearestRoot($createParagraphNode().append(new TextNode('hello')))
+
+      })
+    });
+    return un;
+  }, [editor]);
+
   return (
     <>
-      <ToolbarPlugin />
+      {/* <ToolbarPlugin /> */}
       <div className="editor-container relative">
         <RichTextPlugin
           contentEditable={
@@ -60,34 +93,38 @@ export default function Editor() {
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}
         />
-        <HistoryPlugin />
-        <ListPlugin />
-        <HorizontalRulePlugin />
-        <CursorFollowPlugin />
-        <AutoFocusPlugin />
+        {/* <HistoryPlugin /> */}
+        {/* <ListPlugin /> */}
+        {/* <HorizontalRulePlugin /> */}
+        {/* <CursorFollowPlugin /> */}
+        {/* <AutoFocusPlugin /> */}
 
         {/** Custom Plugins */}
         {/* <CustomH1Plugin /> */}
-        <CustomDecoratorPlugin />
-        <BlockquotePlugin anchor={floatingAnchorElem} />
-        <PageBreakPlugin />
+        {/* <CustomDecoratorPlugin /> */}
+        {/* <BlockquotePlugin anchor={floatingAnchorElem} /> */}
+        {/* <PageBreakPlugin /> */}
         <OnChangePlugin
           onChange={(editorState: EditorState, editor: LexicalEditor) => {
-            editor.update(() => {
-              // const json = JSON.stringify(editor.getEditorState());
-              // console.log(json);
-              // const parsedJson = JSON.parse(json);
-              // console.log(json);
-              // console.log(parsedJson);
-              // // console.log(JSON.parse(JSON.stringify(editor.getEditorState())))
-              const raw = $generateHtmlFromNodes(editor, null);
-              console.log(raw);
-              // const el = document.createElement("div");
-              // el.innerHTML = raw;
-              // console.log(el);
-            });
+            editorStateRef.current = editorState;
+            changedEditor.current = editor;
           }}
         />
+      </div>
+
+      <div className="mt-6">
+        <button
+          onClick={() => {
+            if (editorStateRef.current) {
+              // console.log(JSON.stringify(editorStateRef.current));
+              console.log(editorStateRef.current.toJSON());
+              console.log(editor === changedEditor.current);
+            }
+          }}
+          className="p-3 rounded-lg shadow-lg"
+        >
+          Save
+        </button>
       </div>
     </>
   );

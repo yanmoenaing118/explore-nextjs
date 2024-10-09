@@ -113,7 +113,11 @@ export default function Form() {
   });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    // console.log(data);
+    const filteredData = data.links?.filter(
+      (link) => link.destination && link.platform
+    );
+    console.log("data to send to backend", filteredData);
   });
 
   //   const platform = watch("platform");
@@ -153,7 +157,9 @@ export default function Form() {
                 <span className="p-3 shadow-sm" onClick={addLink}>
                   Add
                 </span>
-                <span className="p-3 shadow-sm">Remove</span>
+                <span className="p-3 shadow-sm" onClick={() => remove(index)}>
+                  Remove
+                </span>
               </div>
             </div>
           );

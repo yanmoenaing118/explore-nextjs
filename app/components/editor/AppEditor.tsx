@@ -38,15 +38,15 @@ export default function AppEditor() {
     editorState,
     namespace: "Playground",
     nodes: [
-      // HeadingNode,
-      // ListItemNode,
-      // ListNode,
-      // HorizontalRuleNode,
-      // PageBreakNode,
-      // BlockquoteContentNode,
-      // BlockquoteTitleNode,
-      // BlockquoteContainerNode,
-      // CustomDecoratorNode
+      HeadingNode,
+      ListItemNode,
+      ListNode,
+      HorizontalRuleNode,
+      PageBreakNode,
+      BlockquoteContentNode,
+      BlockquoteTitleNode,
+      BlockquoteContainerNode,
+      CustomDecoratorNode
     ],
     onError: (error: Error) => {
       throw error;

@@ -80,7 +80,7 @@ export default function Editor() {
 
   return (
     <>
-      {/* <ToolbarPlugin /> */}
+      <ToolbarPlugin />
       <div className="editor-container relative">
         <RichTextPlugin
           contentEditable={
@@ -93,17 +93,17 @@ export default function Editor() {
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}
         />
-        {/* <HistoryPlugin /> */}
-        {/* <ListPlugin /> */}
-        {/* <HorizontalRulePlugin /> */}
-        {/* <CursorFollowPlugin /> */}
-        {/* <AutoFocusPlugin /> */}
+        <HistoryPlugin />
+        <ListPlugin />
+        <HorizontalRulePlugin />
+        <CursorFollowPlugin />
+        <AutoFocusPlugin />
 
         {/** Custom Plugins */}
         {/* <CustomH1Plugin /> */}
         {/* <CustomDecoratorPlugin /> */}
-        {/* <BlockquotePlugin anchor={floatingAnchorElem} /> */}
-        {/* <PageBreakPlugin /> */}
+        <BlockquotePlugin anchor={floatingAnchorElem} />
+        <PageBreakPlugin />
         <OnChangePlugin
           onChange={(editorState: EditorState, editor: LexicalEditor) => {
             editorStateRef.current = editorState;

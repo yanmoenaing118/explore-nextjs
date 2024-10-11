@@ -10,7 +10,7 @@ import {
   $insertNodeToNearestRoot,
   mergeRegister,
 } from "@lexical/utils";
-import { $createCustomH1Node } from "../nodes/CustomH1";
+
 
 export const INSERT_CUSTOM_H1_COMMAND = createCommand<void>();
 
@@ -22,10 +22,8 @@ export default function CustomH1Plugin() {
       editor.registerCommand(
         INSERT_CUSTOM_H1_COMMAND,
         () => {
-          const h1 = $createCustomH1Node();
-          // const para = $createParagraphNode();
-          $insertNodeToNearestRoot(h1);
-          h1.selectEnd()
+
+
           return true;
         },
         COMMAND_PRIORITY_LOW

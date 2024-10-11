@@ -11,7 +11,7 @@ export default async function page() {
       <h1>
         MY PID is <Link href={`/${pid}`}>{pid || "Fuckkkkk"}</Link>
       </h1>
-      <SignIn />
+      {/* <SignIn /> */}
     </div>
   );
 }

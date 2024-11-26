@@ -10,14 +10,21 @@ export default async function page({searchParams}: {
 
   const searchQuery = new URLSearchParams(searchParams).toString();
 
-  redirect(`/cookiess?${searchQuery}`);
+  // redirect(`/cookiess?${searchQuery}`);
 
   return (
     <div>
       <h1>Learning Cookies in depth</h1>
-      <h1>
-        MY PID is <Link href={`/${pid}`}>{pid || "Fuckkkkk"}</Link>
-      </h1>
+      <h1>MY PID is </h1>
+      <div>
+        {pid.map((key) => {
+          return (
+            <div key={key.name}>
+              {key.name} : {key.value}
+            </div>
+          );
+        })}
+      </div>
       <SignIn />
     </div>
   );

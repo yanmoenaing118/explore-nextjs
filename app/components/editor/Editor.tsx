@@ -27,6 +27,7 @@ import CustomDecoratorPlugin from "./plugins/CustomDecoratorPlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $insertNodes } from "lexical";
 import { $insertNodeToNearestRoot } from "@lexical/utils";
+import ComponentPickerPlugin from "./plugins/ComponentPickerPlugin/ComponentPickerPlugin";
 
 function Placeholder() {
   return (
@@ -98,6 +99,7 @@ export default function Editor() {
         <HorizontalRulePlugin />
         <CursorFollowPlugin />
         <AutoFocusPlugin />
+        <ComponentPickerPlugin />
 
         {/** Custom Plugins */}
         {/* <CustomH1Plugin /> */}
@@ -113,7 +115,7 @@ export default function Editor() {
       </div>
 
       <div className="mt-6">
-        <button
+        {/* <button
           onClick={() => {
             if (editorStateRef.current) {
               // console.log(JSON.stringify(editorStateRef.current));
@@ -124,7 +126,7 @@ export default function Editor() {
           className="p-3 rounded-lg shadow-lg"
         >
           Save
-        </button>
+        </button> */}
       </div>
     </>
   );

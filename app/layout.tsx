@@ -26,7 +26,7 @@ export default function RootLayout({
             <Link href="/scholar">Scholar</Link>
           </nav>
 
-          <main className="max-w-[1220px] mx-auto">{children}</main>
+          <main className="max-w-lg mx-auto">{children}</main>
         </ReactQueryProvider>
       </body>
     </html>
